@@ -35,7 +35,7 @@ class ClientResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->label('Nombre')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
@@ -53,14 +53,31 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('NOMBRE')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('EMAIL')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                
+                Tables\Actions\ViewAction::make()->hiddenLabel()->icon('heroicon-o-eye')->color('gray'),
+                Tables\Actions\EditAction::make()->hiddenLabel()->icon('heroicon-o-pencil-square')->color('gray'),
+                Tables\Actions\DeleteAction::make()->hiddenLabel()->icon('heroicon-o-trash')->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

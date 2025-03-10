@@ -17,6 +17,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Request;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -25,12 +26,27 @@ class TenantPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $host = Request::getHost();
+        $subdomain = explode('.', $host)[0];
+
         return $panel
             ->id('tenant')
             ->path('tenant')
             ->login()
+            ->font('Nunito Sans')
+            ->sidebarWidth('12rem')
+            ->brandLogo(function () use ($subdomain) {
+                $logoPath = "images/tenants/{$subdomain}/logo.svg";
+                $defaultLogo = "images/default-logo.svg";
+
+                if (file_exists(public_path($logoPath))) {
+                    return asset($logoPath);
+                }
+
+                return asset($defaultLogo);
+            })
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => 'rgb(' . Color::AzulVendu[100] . ')',
             ])
             ->discoverResources(in: app_path('Filament/Tenant/Resources'), for: 'App\\Filament\\Tenant\\Resources')
             ->discoverPages(in: app_path('Filament/Tenant/Pages'), for: 'App\\Filament\\Tenant\\Pages')
@@ -61,6 +77,6 @@ class TenantPanelProvider extends PanelProvider
             ], isPersistent: true)
             ->authMiddleware([
                 Authenticate::class,
-            ])->font('Ponomar');;
+            ]);
     }
 }
