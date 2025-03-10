@@ -3,6 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\ClientResource;
+use App\Filament\Tenant\Resources\DeliveryResource\Widgets\OrderCompleted;
+use App\Filament\Tenant\Resources\DeliveryResource\Widgets\OrderTotal;
+use App\Filament\Tenant\Resources\FlotaVehiculosResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -33,8 +36,9 @@ class TenantPanelProvider extends PanelProvider
             ->id('tenant')
             ->path('tenant')
             ->login()
+            ->viteTheme('resources/css/filament/tenant/theme.css')
             ->font('Nunito Sans')
-            ->sidebarWidth('12rem')
+            ->sidebarWidth('15rem')
             ->brandLogo(function () use ($subdomain) {
                 $logoPath = "images/tenants/{$subdomain}/logo.svg";
                 $defaultLogo = "images/default-logo.svg";
@@ -51,13 +55,17 @@ class TenantPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Tenant/Resources'), for: 'App\\Filament\\Tenant\\Resources')
             ->discoverPages(in: app_path('Filament/Tenant/Pages'), for: 'App\\Filament\\Tenant\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
-            ->resources([ClientResource::class])
+            ->resources(
+                [
+                    ClientResource::class,
+                    //FlotaVehiculosResource::class
+                    ])
             ->discoverWidgets(in: app_path('Filament/Tenant/Widgets'), for: 'App\\Filament\\Tenant\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -77,6 +85,7 @@ class TenantPanelProvider extends PanelProvider
             ], isPersistent: true)
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ;
     }
 }

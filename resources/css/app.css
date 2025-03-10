@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fi-sidebar-item-label {
+    font-weight: bold !important;
+}

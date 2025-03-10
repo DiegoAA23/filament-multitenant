@@ -1,0 +1,22 @@
+.fi-main {
+    background-color: #ffffff;
+}
+
+.fi-sidebar-nav {
+    background-color: #ffffff;
+}
+
+nav.flex.h-16.items-center.gap-x-4.bg-white.px-4.shadow-sm.ring-1 {
+    --tw-ring-width: 0 !important;
+    --tw-ring-offset-width: 0 !important;
+}
+
+.dark nav.flex.h-16.items-center.gap-x-4.bg-white.px-4.shadow-sm.ring-1 {
+    --tw-ring-width: 0 !important;
+    --tw-ring-offset-width: 0 !important;
+}
+
+nav .fi-global-search {
+    order: -1;
+}
+
