@@ -5,12 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TenantResource\Pages;
 use App\Filament\Resources\TenantResource\RelationManagers;
 use App\Models\Tenant;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TenantResource extends Resource
@@ -18,6 +20,16 @@ class TenantResource extends Resource
     protected static ?string $model = Tenant::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+            ->url(static::getUrl('edit',['record'=>$record]))
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -64,7 +76,11 @@ class TenantResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->hiddenLabel()->icon('heroicon-o-eye')->color('gray'),
+                Tables\Actions\EditAction::make()->hiddenLabel()->icon('heroicon-o-pencil-square')->color('gray'),
+                Tables\Actions\DeleteAction::make()->hiddenLabel()->icon('heroicon-o-trash')->color('gray'),
+                // Tables\Actions\ForceDeleteAction::make(),
+                // Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

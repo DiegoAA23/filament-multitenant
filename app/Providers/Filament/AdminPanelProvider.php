@@ -20,6 +20,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+
+    protected static ?string $recordTitleAttribute = 'title';
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -27,8 +29,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->font('Nunito Sans')
+            ->sidebarWidth('12rem')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => 'rgb(' . Color::AzulVendu[100] . ')',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -36,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->brandLogo(asset('images/logo-glodis.svg'))
+            ->favicon(asset('images/imagen1.png'))
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
