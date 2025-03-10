@@ -8,7 +8,6 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-language-switch": "^3.1",
-        "charrafimed/global-search-modal": "^3.7",
         "filament/filament": "^3.3",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
